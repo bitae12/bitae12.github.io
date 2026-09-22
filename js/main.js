@@ -11,8 +11,15 @@
   }
 
   function setTheme(theme) {
+    if (theme !== "light" && theme !== "dark") {
+      theme = "dark";
+    }
     root.setAttribute("data-theme", theme);
-    localStorage.setItem(THEME_KEY, theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (err) {
+      /* storage blocked — still apply theme */
+    }
     if (themeToggle) {
       themeToggle.setAttribute(
         "aria-label",
@@ -94,5 +101,8 @@
     });
   }
 
-  document.getElementById("year").textContent = String(new Date().getFullYear());
+  var yearEl = document.getElementById("year");
+  if (yearEl) {
+    yearEl.textContent = String(new Date().getFullYear());
+  }
 })();
