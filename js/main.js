@@ -1,6 +1,33 @@
 (function () {
   "use strict";
 
+  var THEME_KEY = "kim-editor-theme";
+  var themeToggle = document.getElementById("theme-toggle");
+  var root = document.documentElement;
+
+  function getTheme() {
+    var t = root.getAttribute("data-theme");
+    return t === "light" ? "light" : "dark";
+  }
+
+  function setTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    localStorage.setItem(THEME_KEY, theme);
+    if (themeToggle) {
+      themeToggle.setAttribute(
+        "aria-label",
+        theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"
+      );
+    }
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      setTheme(getTheme() === "dark" ? "light" : "dark");
+    });
+    setTheme(getTheme());
+  }
+
   var navToggle = document.querySelector(".nav-toggle");
   var siteNav = document.querySelector(".site-nav");
   var navLinks = document.querySelectorAll(".site-nav a[href^='#']");
